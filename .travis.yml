@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t hackenb/react-test -f ./client/Dockerfile.dev ./client
+    
+script:
+    - docker run -e CI=true hackenb/react-test npm test
+
+after_success:
+    - docker build -t hackenb/multi-client -f ./client 
+    - docker build -t hackenb/multi-nginx -f ./nginx
+    - docker build -t hackenb/multi-server -f ./server
+    - docker build -t hackenb/multi-worker -f ./worker 
+# login ot docker cli
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# take those images and push them to docker hub
+- docker push hackenb/multi-client
+- docker push hackenb/multi-nginx
+- docker push hackenb/multi-server
+- docker push hackenb/multi-worker
