@@ -9,10 +9,10 @@ script:
     - docker run -e CI=true hackenb/react-test npm test
 
 after_success:
-    - docker build -t hackenb/multi-client -f ./client 
-    - docker build -t hackenb/multi-nginx -f ./nginx
-    - docker build -t hackenb/multi-server -f ./server
-    - docker build -t hackenb/multi-worker -f ./worker
+    - docker build -t hackenb/multi-client ./client 
+    - docker build -t hackenb/multi-nginx ./nginx
+    - docker build -t hackenb/multi-server ./server
+    - docker build -t hackenb/multi-worker ./worker
 
     # login ot docker cli
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
