@@ -20,3 +20,4 @@ after_success:
 - docker push hackenb/multi-nginx
 - docker push hackenb/multi-server
 - docker push hackenb/multi-worker
+ 
